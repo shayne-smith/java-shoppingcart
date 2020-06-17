@@ -29,9 +29,24 @@ public interface CartRepository
                                  long productid,
                                  long adjustquantity);
 
+    @Query(value = "SELECT COUNT(*) as count FROM cartitems WHERE cartid = :cartid AND productid = :productid",
+        nativeQuery = true)
+    JustTheCount checkCartItemsCombo(
+        long cartid,
+        long productid);
+
     @Transactional
     @Modifying
-    @Query(value = "INSERT INTO cartitems (cartid, productid, quantity, created_by, created_date, last_modified_by, last_modified_date) VALUES (:cartid, :productid, 1, :uname, CURRENT_TIMESTAMP , :uname, CURRENT_TIMESTAMP)", nativeQuery = true)
+    @Query(value = "INSERT INTO cartitems(cartid, productid, quantity, created_by, created_date, last_modified_by, last_modified_date) VALUES (:cartid, :productid, 1, :uname, CURRENT_TIMESTAMP, :uname, CURRENT_TIMESTAMP)",
+        nativeQuery = true)
+    void insertCartItems(
+        String uname,
+        long cartid,
+        long productid);
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO cartitems(cartid, productid, quantity, created_by, created_date, last_modified_by, last_modified_date) VALUES (:cartid, :productid, 1, :uname, CURRENT_TIMESTAMP , :uname, CURRENT_TIMESTAMP)", nativeQuery = true)
     void addCartItems(String uname,
                       long cartid,
                       long productid);

@@ -1,6 +1,10 @@
 package com.lambdaschool.shoppingcart.handlers;
 
+import com.lambdaschool.shoppingcart.exceptions.ResourceNotFoundException;
 import com.lambdaschool.shoppingcart.models.ValidationError;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.validation.ConstraintViolation;
@@ -15,12 +19,22 @@ import java.util.List;
 @Component
 public class HelperFunctions
 {
-    /**
-     * Searches to see if the exception has any constraint violations to report
-     *
-     * @param cause the exception to search
-     * @return constraint violations formatted for sending to the client
-     */
+    public boolean isAuthorizedToMakeChange(String username)
+    {
+        Authentication authentication = SecurityContextHolder.getContext()
+            .getAuthentication();
+        if (username.equalsIgnoreCase(authentication.getName()
+            .toLowerCase()) || authentication.getAuthorities()
+            .contains(new SimpleGrantedAuthority("ROLE_ADMIN")))
+        {
+            return true;
+        } else
+        {
+            throw new ResourceNotFoundException(authentication.getName() + " not authorized to make change");
+        }
+    }
+
+
     public List<ValidationError> getConstraintViolation(Throwable cause)
     {
         // Find any data violations that might be associated with the error and report them

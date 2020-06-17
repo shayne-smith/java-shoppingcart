@@ -10,28 +10,16 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 
-/**
- * This class enables and configures the Authorization Server. The class is also responsible for granting authorization to the client.
- * This class is responsible for generating and maintaining the access tokens.
- */
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig
         extends AuthorizationServerConfigurerAdapter
 {
-    /**
-     * Client Id is the user name for the client application. It is read from the environment variable OAUTHCLIENTID
-     */
-    static final String CLIENT_ID = System.getenv("OAUTHCLIENTID");
+    static final String CLIENT_ID = "lambda-client";
+    //    static final String CLIENT_ID = System.getenv("OAUTHCLIENTID");
+    static final String CLIENT_SECRET = "lambda-secret";
+    //    static final String CLIENT_SECRET = System.getenv("OAUTHCLIENTSECRET"); // read from environment variable
 
-    /**
-     * Client secret is the password for the client application. It is read from the environment variable OAUTHCLIENTSECRET
-     */
-    static final String CLIENT_SECRET = System.getenv("OAUTHCLIENTSECRET"); // read from environment variable
-
-    /**
-     * We are using username and password to authenticate a user
-     */
     static final String GRANT_TYPE_PASSWORD = "password";
 
     /**

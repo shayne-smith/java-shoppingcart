@@ -53,7 +53,7 @@ public class CartServiceImpl
     public Cart findCartById(long id)
     {
         return cartrepos.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Car id " + id + " not found!"));
+                .orElseThrow(() -> new ResourceNotFoundException("Cart id " + id + " not found!"));
     }
 
     @Transactional

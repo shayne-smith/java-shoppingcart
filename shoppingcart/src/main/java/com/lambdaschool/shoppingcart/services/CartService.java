@@ -54,6 +54,14 @@ public interface CartService
     Cart save(Cart cart,
               Product product);
 
+    void addCartItem(
+        long cartid,
+        long productid);
+
+    Cart update(
+        Cart cart,
+        long id);
+
     /**
      * Removes product from this cart
      *
